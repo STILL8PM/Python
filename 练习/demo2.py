@@ -1,15 +1,18 @@
 import requests
-url="https://item.jd.com/100019888212.html"
-try:
-    kv = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36",
-        "cookie": "8ipiu591lktf4so07w5be3rp730lxbs6" #cookie信息每个人都不同，需登录到京东网站，通过浏览器查看cookie信息
-    }
-    r = requests.get(url, headers = kv) 
-    r.raise_for_status()
-    r.encoding = r.apparent_encoding
-    print(r.text[:1000])
-except:
-    print("爬取失败")
+from lxml import etree
 
-
+url = 'https://www.xxxx.com/page/4/'
+response = requests.get(url)
+html = etree.HTML(response.text)
+href_list = html.xpath('//div[@class="item-title"]/a/@href')
+for href in href_list:
+    res = requests.get(href)
+    html_data = etree.HTML(res.text)
+    img_url_list = html_data.xpath('//div[@data-fancybox="gallery"]/@data-src')
+    img_name_list = html_data.xpath('//img/@alt')
+    print(img_url_list)
+    for img_url, img_name in zip(img_url_list, img_name_list):
+        result = requests.get(img_url).content
+        with open('图片/' + img_name + ".jpg", "wb")as f:
+            f.write(result)
+            print("正在下载:", img_name)
