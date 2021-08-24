@@ -1,17 +1,14 @@
 # -*- coding: UTF-8 -*-
-"""
-# @Time: 2021/8/21 21:46
-# @Author: 远方的星
-# @CSDN: https://blog.csdn.net/qq_44921056
-"""
+
 from PIL import Image
 from PIL import ImageFile
 
 # 跳过“损坏”图片
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
-
 # 用于判断哪里放图片，哪里放空白图像
+
+
 def images_position(x, y):
     if x == 0 and y in [1, 2, 6, 7]:
         return True
@@ -35,7 +32,7 @@ for side in range(lines * lines):
     # 判断该放图片还是空白图
     if images_position(col, row):
         # 读取图像，这里素材是用爬虫爬取的，命名已经有规律了，直接读取
-        img = Image.open("D:/极简壁纸/{}.png".format(side+1))
+        img = Image.open("H:/极简壁纸/{}.png".format(side+1))
         # 调整图片大小
         img = img.resize((192, 192), Image.ANTIALIAS)
     else:
@@ -51,4 +48,4 @@ for side in range(lines * lines):
     if row == col == lines:
         break
 heart_image.show()
-heart_image.save("D:/heart_image.png")
+heart_image.save("h:/heart_image.png")
