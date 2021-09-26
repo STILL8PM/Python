@@ -1,9 +1,13 @@
 import requests
 from lxml import etree
+import os
 headers = {
     'Cookie': 'Hm_lvt_c8263f264e5db13b29b03baeb1840f60=1632291839,1632373348; Hm_lpvt_c8263f264e5db13b29b03baeb1840f60=1632373697',
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36'}
-for i in range(2, 3):
+
+os.chdir(r"G:\GitHub\Python\爬虫100例")
+os.mkdir("图片")
+for i in range(3, 4):
     url = f'https://www.3gbizhi.com/meinv/xgmn_{i}.html'
     response = requests.get(url, headers=headers)
     html = etree.HTML(response.text)
@@ -21,8 +25,8 @@ for i in range(2, 3):
         for img_url in img_url_list:
             img_url = ''.join(img_url.split('thumb_200_0_'))
             result = requests.get(img_url, headers=headers).content
-            with open('爬虫100例/' + title + str(num) + '.jpg', 'w')as f:
+            
+            with open('图片/' + str(num) + '.jpg', 'wb')as f:
                 f.write(result)
             num += 1
-
-            print(f'正在下载{title}第{num}张！！！！')
+            print(f'正在下载第{num}张！！！！')
