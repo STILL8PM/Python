@@ -1,16 +1,20 @@
-import requests
-import re
-url = 'https://api.bilibili.com/x/v1/dm/list.so?oid=392402545'
+from urllib import request,parse
+
+from requests.models import Response
+from requests.sessions import RequestsCookieJar
+url = 'http://httpbin.org/'
+
+# 请求头设置
 headers = {
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36'
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15',
+    'Host': 'httpbin.org' 
 }
-response = requests.get(url=url, headers=headers)
-response.encoding = response.apparent_encoding
-# re 正则表达式
-html_data = re.findall('<d p=".*?">(.*?)</d>', response.text)
-print(html_data)
-for index in html_data:
-    with open('弹幕1.txt', mode='a', encoding='utf-8')  as f:
-        f.write(index)
-        f.write('\n')
-        print(index)
+# 参数设置
+dict = {
+    'name': 'Germey'
+}
+data = bytes(parse.urlencode(dict),encoding='utf8')
+Response = request.Request(url=url,data=data,headers=headers,method='post')
+Response = request.urlopen(Response)
+print(Response.read())
+
